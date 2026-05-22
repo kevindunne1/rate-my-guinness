@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { Pint } from "@/lib/pints";
 import { Beer, Skull, Star, MapPin, ArrowLeft, ArrowRight } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 
 type Props = {
   pints: Pint[];
@@ -10,13 +11,60 @@ export function SwipeStack({ pints }: Props) {
   const [index, setIndex] = useState(0);
   const [drag, setDrag] = useState({ x: 0, y: 0, active: false });
   const [stars, setStars] = useState<Record<string, number>>({});
+  const [ratingFeedback, setRatingFeedback] = useState<string | null>(null);
+  const [swipedIds, setSwipedIds] = useState<Set<string>>(new Set());
   const startRef = useRef<{ x: number; y: number } | null>(null);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
+  }, []);
 
   if (pints.length === 0) {
     return (
-      <div className="flex h-64 items-center justify-center rounded-3xl border border-border bg-card text-muted-foreground">
-        No pints to rate right now. Be the first to{" "}
-        <a href="/upload" className="ml-1 text-gold underline">submit one.</a>
+      <div className="flex h-64 flex-col items-center justify-center gap-4 rounded-3xl border border-border bg-card text-muted-foreground">
+        <p>No pints to rate right now.</p>
+        <Link to="/upload" className="rounded-full bg-gold px-5 py-2 text-sm font-medium text-stout">
+          Be the first to submit one
+        </Link>
+      </div>
+    );
+  }
+
+  // All-rated end state
+  if (swipedIds.size >= pints.length) {
+    return (
+      <div className="mx-auto flex max-w-md flex-col items-center gap-6 rounded-3xl border border-border bg-card px-8 py-14 text-center">
+        <span className="font-serif text-5xl">🍺</span>
+        <h3 className="font-serif text-2xl text-cream">
+          You've rated all {pints.length} pints.
+        </h3>
+        <p className="text-sm text-muted-foreground">
+          The jury has spoken. Check the leaderboard or submit your own.
+        </p>
+        <div className="flex flex-col gap-3 sm:flex-row">
+          <button
+            onClick={() => { setSwipedIds(new Set()); setIndex(0); }}
+            className="rounded-full border border-border px-6 py-2.5 text-sm text-cream hover:border-gold hover:text-gold"
+          >
+            Rate again
+          </button>
+          <Link
+            to="/leaderboard"
+            className="rounded-full bg-gold px-6 py-2.5 text-sm font-medium text-stout"
+          >
+            See the Leaderboard
+          </Link>
+          <Link
+            to="/upload"
+            className="rounded-full border border-gold/40 px-6 py-2.5 text-sm text-gold hover:bg-gold/10"
+          >
+            Submit a pint
+          </Link>
+        </div>
       </div>
     );
   }
@@ -25,10 +73,13 @@ export function SwipeStack({ pints }: Props) {
   const next = pints[(index + 1) % pints.length];
 
   const advance = (dir: "left" | "right") => {
+    setSwipedIds((prev) => new Set([...prev, current.id]));
     setDrag({ x: dir === "right" ? 600 : -600, y: 0, active: false });
-    setTimeout(() => {
+    if (timerRef.current) clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(() => {
       setIndex((i) => i + 1);
       setDrag({ x: 0, y: 0, active: false });
+      timerRef.current = null;
     }, 280);
   };
 
@@ -39,8 +90,8 @@ export function SwipeStack({ pints }: Props) {
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [index]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [index, current]);
 
   const onStart = (x: number, y: number) => {
     startRef.current = { x, y };
@@ -61,10 +112,17 @@ export function SwipeStack({ pints }: Props) {
   const badOpacity = Math.min(Math.max(-drag.x / 120, 0), 1);
   const userRating = stars[current.id] ?? 0;
 
+  const handleStarClick = (n: number) => {
+    setStars({ ...stars, [current.id]: n });
+    setRatingFeedback(`${n} star${n > 1 ? "s" : ""} recorded`);
+    if (timerRef.current) clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(() => setRatingFeedback(null), 1800);
+  };
+
   return (
     <div className="relative mx-auto w-full max-w-md select-none">
 
-      {/* Swipe direction indicators — above the card */}
+      {/* Direction indicators above card */}
       <div className="mb-3 flex items-center justify-between px-2">
         <div className="flex items-center gap-1.5 rounded-full border border-blood/40 bg-blood/10 px-4 py-2 text-sm font-medium text-blood">
           <ArrowLeft size={16} />
@@ -152,13 +210,19 @@ export function SwipeStack({ pints }: Props) {
       {/* Star rating */}
       <div className="mt-5">
         <p className="mb-2 text-center text-xs uppercase tracking-widest text-muted-foreground">
-          {userRating > 0 ? `You rated ${userRating} star${userRating > 1 ? "s" : ""}` : "Tap to leave your rating"}
+          {ratingFeedback ? (
+            <span className="text-gold">{ratingFeedback} ✓</span>
+          ) : userRating > 0 ? (
+            `You rated ${userRating} star${userRating > 1 ? "s" : ""} — tap to change`
+          ) : (
+            "Tap a star to leave your rating"
+          )}
         </p>
         <div className="flex items-center justify-center gap-2">
           {[1, 2, 3, 4, 5].map((n) => (
             <button
               key={n}
-              onClick={() => setStars({ ...stars, [current.id]: n })}
+              onClick={() => handleStarClick(n)}
               aria-label={`Rate ${n} star${n > 1 ? "s" : ""}`}
               className="p-1 transition-transform hover:scale-125 active:scale-110"
             >
@@ -171,7 +235,7 @@ export function SwipeStack({ pints }: Props) {
         </div>
       </div>
 
-      {/* Action buttons with labels */}
+      {/* Action buttons */}
       <div className="mt-5 flex items-center justify-center gap-6">
         <button
           onClick={() => advance("left")}

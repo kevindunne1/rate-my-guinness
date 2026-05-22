@@ -1,7 +1,6 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { PINTS, type Pint } from "@/lib/pints";
-import { ScoreBadge } from "@/components/ScoreBadge";
 import { Search, X, Filter } from "lucide-react";
 
 export const Route = createFileRoute("/map")({
@@ -173,7 +172,7 @@ function LeafletMap({ pints }: { pints: Pint[] }) {
               <span style="background:${color};color:#0D0D0D;padding:4px 10px;border-radius:999px;font-weight:700;font-size:13px">${p.score.toFixed(1)} ★</span>
               <span style="font-size:11px;color:#666">${p.ratings} ratings</span>
             </div>
-            <a href="/#rate" style="display:block;background:#0D0D0D;color:#C9A84C;text-align:center;padding:8px;border-radius:8px;font-size:12px;font-weight:600;text-decoration:none">Rate This Pint</a>
+            <a href="/leaderboard" style="display:block;background:#0D0D0D;color:#C9A84C;text-align:center;padding:8px;border-radius:8px;font-size:12px;font-weight:600;text-decoration:none">View on Leaderboard</a>
           </div>`
         );
         layerRef.current.addLayer(marker);

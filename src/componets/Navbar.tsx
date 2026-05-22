@@ -47,7 +47,7 @@ export function Navbar() {
                 to={l.to}
                 activeOptions={{ exact: l.to === "/" }}
                 onClick={() => setOpen(false)}
-                className="rounded-lg px-4 py-3 text-base text-muted-foreground transition-colors hover:text-cream data-[status=active]:text-gold"
+                className="rounded-lg px-4 py-3 text-base text-muted-foreground transition-colors hover:text-cream data-[status=active]:bg-gold/10 data-[status=active]:text-gold"
               >
                 {l.label}
               </Link>
