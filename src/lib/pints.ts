@@ -13,32 +13,63 @@ export type Pint = {
   notes?: string;
 };
 
-// Unsplash photos — free for commercial use, no attribution required (Unsplash Licence)
-const PHOTOS = [
-  "https://images.unsplash.com/photo-1535958636474-b021ee887b13?w=800&q=80", // dark stout pint
-  "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80", // pint on bar
-  "https://images.unsplash.com/photo-1566633806327-68e152aaf26d?w=800&q=80", // guinness pint
-  "https://images.unsplash.com/photo-1608270586620-248524c67de9?w=800&q=80", // stout close up
-  "https://images.unsplash.com/photo-1527481138388-31827a7c94d5?w=800&q=80", // pub pint
-  "https://images.unsplash.com/photo-1600788886242-5c96aabe3757?w=800&q=80", // dark beer glass
-  "https://images.unsplash.com/photo-1518099074172-2e47ee6cfdc0?w=800&q=80", // pub interior pint
-  "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=80", // beer on table
-  "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=800&q=80", // pint glass
-  "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?w=800&q=80", // stout
-  "https://images.unsplash.com/photo-1571613316887-6f8d5cbf7ef7?w=800&q=80", // beer pour
-  "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=800&q=80", // golden pint
-  "https://images.unsplash.com/photo-1436076863939-06870fe779c2?w=800&q=80", // dark pint close
-  "https://images.unsplash.com/photo-1474722883778-792e7990302f?w=800&q=80", // bar stout
-  "https://images.unsplash.com/photo-1559526324-593bc073d938?w=800&q=80", // pint on wood
-];
-
-const p = (i: number) => PHOTOS[i % PHOTOS.length];
+import g1 from "@/assets/guiness1.jpg";
+import g2 from "@/assets/guiness2.jpg";
+import g3 from "@/assets/guiness3.jpg";
+import g4 from "@/assets/guiness4.jpg";
+import g5 from "@/assets/guiness5.jpg";
+import g6 from "@/assets/guiness6.jpg";
+import g7 from "@/assets/guiness7.jpg";
+import g8 from "@/assets/guiness8.jpg";
+import g9 from "@/assets/guiness9.jpg";
+import g10 from "@/assets/guiness10.jpg";
+import g11 from "@/assets/guiness11.jpg";
+import g12 from "@/assets/guiness12.jpg";
+import g13 from "@/assets/guiness13.jpg";
+import g14 from "@/assets/guiness14.jpg";
+import g15 from "@/assets/guiness15.jpg";
+import g16 from "@/assets/guiness16.jpg";
+import g17 from "@/assets/guiness17.jpg";
+import g18 from "@/assets/guiness18.jpg";
+import g19 from "@/assets/guiness19.jpg";
+import g20 from "@/assets/guiness20.jpg";
+import g21 from "@/assets/guiness21.jpg";
+import g22 from "@/assets/guiness22.jpg";
+import g23 from "@/assets/guiness23.jpg";
+import g24 from "@/assets/guiness24.jpg";
+import g25 from "@/assets/guiness25.jpg";
+import g26 from "@/assets/guiness26.jpg";
+import g27 from "@/assets/guiness27.jpg";
+import g28 from "@/assets/guiness28.jpg";
+import g29 from "@/assets/guiness29.jpg";
+import g30 from "@/assets/guiness30.jpg";
+import g31 from "@/assets/guiness31.jpg";
+import g32 from "@/assets/guiness32.jpg";
+import g33 from "@/assets/guiness33.jpg";
+import g34 from "@/assets/guiness34.jpg";
+import g35 from "@/assets/guiness35.jpg";
+import g36 from "@/assets/guiness36.jpg";
+import g37 from "@/assets/guiness37.jpg";
+import g38 from "@/assets/guiness38.jpg";
+import g39 from "@/assets/guiness39.jpg";
+import g40 from "@/assets/guiness40.jpg";
+import g41 from "@/assets/guiness41.jpg";
+import g42 from "@/assets/guiness42.jpg";
+import g43 from "@/assets/guiness43.jpg";
+import p1 from "@/assets/pint-1.jpg";
+import p2 from "@/assets/pint-2.jpg";
+import p3 from "@/assets/pint-3.jpg";
+import p4 from "@/assets/pint-4.jpg";
+import p5 from "@/assets/pint-5.jpg";
+import p6 from "@/assets/pint-6.jpg";
+import brannigans from "@/assets/brannigans-guinness.jpg";
+import pintTable from "@/assets/guinness-pint-table.jpg";
 
 export const PINTS: Pint[] = [
-  // Dublin
+  // --- Dublin ---
   {
     id: "1",
-    photo: p(0),
+    photo: g1,
     pub: "The Long Hall",
     city: "Dublin",
     country: "Ireland",
@@ -52,7 +83,7 @@ export const PINTS: Pint[] = [
   },
   {
     id: "2",
-    photo: p(1),
+    photo: g2,
     pub: "Mulligan's",
     city: "Dublin",
     country: "Ireland",
@@ -66,7 +97,7 @@ export const PINTS: Pint[] = [
   },
   {
     id: "3",
-    photo: p(2),
+    photo: g3,
     pub: "Kehoe's",
     city: "Dublin",
     country: "Ireland",
@@ -79,7 +110,7 @@ export const PINTS: Pint[] = [
   },
   {
     id: "4",
-    photo: p(3),
+    photo: g4,
     pub: "The Stag's Head",
     city: "Dublin",
     country: "Ireland",
@@ -92,7 +123,7 @@ export const PINTS: Pint[] = [
   },
   {
     id: "5",
-    photo: p(4),
+    photo: g5,
     pub: "Grogan's Castle Lounge",
     city: "Dublin",
     country: "Ireland",
@@ -105,7 +136,7 @@ export const PINTS: Pint[] = [
   },
   {
     id: "6",
-    photo: p(5),
+    photo: g6,
     pub: "The Palace Bar",
     city: "Dublin",
     country: "Ireland",
@@ -119,7 +150,7 @@ export const PINTS: Pint[] = [
   },
   {
     id: "7",
-    photo: p(6),
+    photo: g7,
     pub: "John Kavanagh's (The Gravediggers)",
     city: "Dublin",
     country: "Ireland",
@@ -133,7 +164,7 @@ export const PINTS: Pint[] = [
   },
   {
     id: "8",
-    photo: p(7),
+    photo: g8,
     pub: "Doheny & Nesbitt",
     city: "Dublin",
     country: "Ireland",
@@ -144,10 +175,135 @@ export const PINTS: Pint[] = [
     score: 4.2,
     ratings: 44,
   },
-  // Belfast
   {
     id: "9",
-    photo: p(8),
+    photo: g9,
+    pub: "Toner's",
+    city: "Dublin",
+    country: "Ireland",
+    lat: 53.3357,
+    lng: -6.2493,
+    handle: "@toners_regular",
+    date: "Just now",
+    score: 0,
+    ratings: 0,
+    notes: "First submission. Be gentle.",
+  },
+  {
+    id: "10",
+    photo: g10,
+    pub: "O'Donoghue's",
+    city: "Dublin",
+    country: "Ireland",
+    lat: 53.3349,
+    lng: -6.2527,
+    handle: "@merrion_row",
+    date: "4 days ago",
+    score: 4.4,
+    ratings: 113,
+    notes: "Birthplace of the Dubliners. The atmosphere pours itself.",
+  },
+  {
+    id: "11",
+    photo: g11,
+    pub: "The Brazen Head",
+    city: "Dublin",
+    country: "Ireland",
+    lat: 53.3441,
+    lng: -6.2726,
+    handle: "@oldestpubirl",
+    date: "6 days ago",
+    score: 3.8,
+    ratings: 91,
+    notes: "Oldest pub in Ireland, 1198. Pour is decent, tourist tax applies.",
+  },
+  // --- Ireland (outside Dublin) ---
+  {
+    id: "12",
+    photo: g12,
+    pub: "Dick Mack's",
+    city: "Dingle",
+    country: "Ireland",
+    lat: 52.1407,
+    lng: -10.2714,
+    handle: "@dinglestout",
+    date: "2 weeks ago",
+    score: 4.7,
+    ratings: 78,
+    notes: "Half pub, half cobbler's shop. Fully magnificent pint.",
+  },
+  {
+    id: "13",
+    photo: g13,
+    pub: "The Quays Bar",
+    city: "Galway",
+    country: "Ireland",
+    lat: 53.2706,
+    lng: -9.0556,
+    handle: "@westcoastpint",
+    date: "3 days ago",
+    score: 4.1,
+    ratings: 66,
+  },
+  {
+    id: "14",
+    photo: g14,
+    pub: "Tigh Neachtain",
+    city: "Galway",
+    country: "Ireland",
+    lat: 53.2737,
+    lng: -9.0519,
+    handle: "@galwaylocal",
+    date: "1 week ago",
+    score: 4.5,
+    ratings: 54,
+    notes: "Corner pub, no nonsense. Proper pint.",
+  },
+  {
+    id: "15",
+    photo: g15,
+    pub: "Sin É",
+    city: "Cork",
+    country: "Ireland",
+    lat: 51.8985,
+    lng: -8.4706,
+    handle: "@rebelpint",
+    date: "5 days ago",
+    score: 4.3,
+    ratings: 47,
+  },
+  {
+    id: "16",
+    photo: g16,
+    pub: "Tynan's Bridge House",
+    city: "Kilkenny",
+    country: "Ireland",
+    lat: 52.6538,
+    lng: -7.2483,
+    handle: "@noresidebarfly",
+    date: "2 weeks ago",
+    score: 4.6,
+    ratings: 39,
+    notes: "Medieval city, medieval quality standard. Excellent.",
+  },
+  {
+    id: "17",
+    photo: g17,
+    pub: "Morrissey's",
+    city: "Abbeyleix",
+    country: "Ireland",
+    lat: 52.9094,
+    lng: -7.3384,
+    handle: "@laoislocal",
+    date: "1 month ago",
+    score: 4.8,
+    ratings: 28,
+    notes: "Still has the original Victorian bar. The pint is the point.",
+  },
+  // --- Northern Ireland ---
+  {
+    id: "18",
+    photo: g18,
     pub: "The Crown Bar",
     city: "Belfast",
     country: "N. Ireland",
@@ -160,8 +316,8 @@ export const PINTS: Pint[] = [
     notes: "National Trust listed. The snugs are worth the trip alone.",
   },
   {
-    id: "10",
-    photo: p(9),
+    id: "19",
+    photo: g19,
     pub: "White's Tavern",
     city: "Belfast",
     country: "N. Ireland",
@@ -172,10 +328,24 @@ export const PINTS: Pint[] = [
     score: 4.1,
     ratings: 67,
   },
-  // London
   {
-    id: "11",
-    photo: p(10),
+    id: "20",
+    photo: g20,
+    pub: "Kelly's Cellars",
+    city: "Belfast",
+    country: "N. Ireland",
+    lat: 54.5993,
+    lng: -5.9344,
+    handle: "@kellys_1720",
+    date: "3 weeks ago",
+    score: 4.3,
+    ratings: 52,
+    notes: "1720. Still going. The pint hasn't changed either.",
+  },
+  // --- England ---
+  {
+    id: "21",
+    photo: g21,
     pub: "The Toucan",
     city: "London",
     country: "UK",
@@ -188,8 +358,8 @@ export const PINTS: Pint[] = [
     notes: "Soho institution. Tiny but mighty.",
   },
   {
-    id: "12",
-    photo: p(11),
+    id: "22",
+    photo: g22,
     pub: "The Harp",
     city: "London",
     country: "UK",
@@ -200,10 +370,107 @@ export const PINTS: Pint[] = [
     score: 4.0,
     ratings: 55,
   },
-  // New York
   {
-    id: "13",
-    photo: p(12),
+    id: "23",
+    photo: g23,
+    pub: "Waxy O'Connor's",
+    city: "London",
+    country: "UK",
+    lat: 51.5099,
+    lng: -0.1282,
+    handle: "@londonirish",
+    date: "2 days ago",
+    score: 3.5,
+    ratings: 72,
+    notes: "Four floors of madness. Pint is serviceable.",
+  },
+  {
+    id: "24",
+    photo: g24,
+    pub: "The Philharmonic Dining Rooms",
+    city: "Liverpool",
+    country: "UK",
+    lat: 53.4037,
+    lng: -2.9673,
+    handle: "@liverpoolpour",
+    date: "1 week ago",
+    score: 4.2,
+    ratings: 61,
+    notes: "Grade I listed. Gold-inlaid ceiling, decent stout.",
+  },
+  {
+    id: "25",
+    photo: g25,
+    pub: "The Britons Protection",
+    city: "Manchester",
+    country: "UK",
+    lat: 53.4772,
+    lng: -2.2426,
+    handle: "@madchesterpint",
+    date: "4 days ago",
+    score: 3.9,
+    ratings: 43,
+  },
+  {
+    id: "26",
+    photo: g26,
+    pub: "The Black Swan",
+    city: "York",
+    country: "UK",
+    lat: 53.9600,
+    lng: -1.0800,
+    handle: "@yorkshire_stout",
+    date: "3 weeks ago",
+    score: 3.7,
+    ratings: 31,
+    notes: "Surprise find. They know what they're doing.",
+  },
+  // --- Scotland ---
+  {
+    id: "27",
+    photo: g27,
+    pub: "The Bow Bar",
+    city: "Edinburgh",
+    country: "Scotland",
+    lat: 55.9481,
+    lng: -3.1934,
+    handle: "@edinpint",
+    date: "2 days ago",
+    score: 4.4,
+    ratings: 84,
+    notes: "Whisky temple that also pours a fine stout.",
+  },
+  {
+    id: "28",
+    photo: g28,
+    pub: "The Sheep Heid Inn",
+    city: "Edinburgh",
+    country: "Scotland",
+    lat: 55.9403,
+    lng: -3.1515,
+    handle: "@duddingston",
+    date: "1 week ago",
+    score: 4.0,
+    ratings: 38,
+    notes: "Oldest pub in Scotland, allegedly. Pint holds up.",
+  },
+  {
+    id: "29",
+    photo: g29,
+    pub: "The Pot Still",
+    city: "Glasgow",
+    country: "Scotland",
+    lat: 55.8651,
+    lng: -4.2613,
+    handle: "@glasgowg",
+    date: "5 days ago",
+    score: 4.1,
+    ratings: 49,
+  },
+  // --- USA ---
+  {
+    id: "30",
+    photo: g30,
     pub: "The Dead Rabbit",
     city: "New York",
     country: "USA",
@@ -216,23 +483,131 @@ export const PINTS: Pint[] = [
     notes: "World's best bar. The pour backs it up.",
   },
   {
-    id: "14",
-    photo: p(13),
+    id: "31",
+    photo: g31,
     pub: "McSorley's Old Ale House",
     city: "New York",
     country: "USA",
     lat: 40.7285,
     lng: -73.9890,
-    handle: "@oldestpub",
+    handle: "@oldestpubnyc",
     date: "2 weeks ago",
     score: 1.8,
     ratings: 176,
     notes: "Historic place, questionable pour. Comes out lukewarm.",
   },
-  // Sydney
   {
-    id: "15",
-    photo: p(14),
+    id: "32",
+    photo: g32,
+    pub: "The Plough & Stars",
+    city: "Boston",
+    country: "USA",
+    lat: 42.3591,
+    lng: -71.0617,
+    handle: "@bostonstout",
+    date: "6 days ago",
+    score: 4.2,
+    ratings: 93,
+    notes: "Cambridge Irish bar that takes the pour seriously.",
+  },
+  {
+    id: "33",
+    photo: g33,
+    pub: "Fado Irish Pub",
+    city: "Chicago",
+    country: "USA",
+    lat: 41.8881,
+    lng: -87.6285,
+    handle: "@chi_pint",
+    date: "1 week ago",
+    score: 3.6,
+    ratings: 57,
+  },
+  {
+    id: "34",
+    photo: g34,
+    pub: "Connolly's Pub & Restaurant",
+    city: "San Francisco",
+    country: "USA",
+    lat: 37.7849,
+    lng: -122.4094,
+    handle: "@sfpinthouse",
+    date: "3 days ago",
+    score: 3.9,
+    ratings: 44,
+  },
+  {
+    id: "35",
+    photo: g35,
+    pub: "The Dubliner",
+    city: "Washington DC",
+    country: "USA",
+    lat: 38.8973,
+    lng: -77.0028,
+    handle: "@dcstout",
+    date: "2 weeks ago",
+    score: 3.4,
+    ratings: 68,
+    notes: "Near Capitol Hill. Politicians can't ruin a decent pint.",
+  },
+  {
+    id: "36",
+    photo: g36,
+    pub: "P.J. Clarke's",
+    city: "New York",
+    country: "USA",
+    lat: 40.7580,
+    lng: -73.9700,
+    handle: "@pjclarkes",
+    date: "Just now",
+    score: 0,
+    ratings: 0,
+  },
+  // --- Canada ---
+  {
+    id: "37",
+    photo: g37,
+    pub: "The Dora Keogh",
+    city: "Toronto",
+    country: "Canada",
+    lat: 43.6825,
+    lng: -79.3167,
+    handle: "@torontoir",
+    date: "1 week ago",
+    score: 4.1,
+    ratings: 36,
+    notes: "Danforth institution. Proper pour, no drama.",
+  },
+  {
+    id: "38",
+    photo: g38,
+    pub: "The Irish Heather",
+    city: "Vancouver",
+    country: "Canada",
+    lat: 49.2834,
+    lng: -123.0990,
+    handle: "@vanpint",
+    date: "5 days ago",
+    score: 4.0,
+    ratings: 29,
+  },
+  {
+    id: "39",
+    photo: g39,
+    pub: "Bridie Molloy's",
+    city: "Ottawa",
+    country: "Canada",
+    lat: 45.4235,
+    lng: -75.6979,
+    handle: "@ottawairish",
+    date: "3 weeks ago",
+    score: 3.8,
+    ratings: 21,
+  },
+  // --- Australia ---
+  {
+    id: "40",
+    photo: g40,
     pub: "P.J. O'Brien's",
     city: "Sydney",
     country: "Australia",
@@ -244,19 +619,161 @@ export const PINTS: Pint[] = [
     ratings: 89,
     notes: "Better than average for Sydney. Low bar.",
   },
-  // New entry — zero ratings for demo
   {
-    id: "16",
-    photo: p(0),
-    pub: "Toner's",
-    city: "Dublin",
-    country: "Ireland",
-    lat: 53.3357,
-    lng: -6.2493,
-    handle: "@toners_regular",
+    id: "41",
+    photo: g41,
+    pub: "Bridie O'Reilly's",
+    city: "Melbourne",
+    country: "Australia",
+    lat: -37.8136,
+    lng: 144.9631,
+    handle: "@melbournepint",
+    date: "4 days ago",
+    score: 3.5,
+    ratings: 53,
+    notes: "Melbs does okay. Temperature could be colder.",
+  },
+  {
+    id: "42",
+    photo: g42,
+    pub: "The Pineapple Hotel",
+    city: "Brisbane",
+    country: "Australia",
+    lat: -27.4745,
+    lng: 153.0253,
+    handle: "@brisbanestout",
+    date: "2 weeks ago",
+    score: 2.9,
+    ratings: 34,
+    notes: "Queensland heat is the enemy of a good pint.",
+  },
+  {
+    id: "43",
+    photo: g43,
+    pub: "Fibber Magee's",
+    city: "Perth",
+    country: "Australia",
+    lat: -31.9505,
+    lng: 115.8605,
+    handle: "@perthpint",
+    date: "1 month ago",
+    score: 3.3,
+    ratings: 27,
+  },
+  // --- New Zealand ---
+  {
+    id: "44",
+    photo: p1,
+    pub: "Galbraith's Alehouse",
+    city: "Auckland",
+    country: "New Zealand",
+    lat: -36.8659,
+    lng: 174.7698,
+    handle: "@akldpint",
+    date: "1 week ago",
+    score: 4.2,
+    ratings: 41,
+    notes: "Craft-focused but they nail the stout. Respect.",
+  },
+  {
+    id: "45",
+    photo: p2,
+    pub: "The Malthouse",
+    city: "Wellington",
+    country: "New Zealand",
+    lat: -41.2865,
+    lng: 174.7762,
+    handle: "@wellingtonbeer",
+    date: "3 weeks ago",
+    score: 4.0,
+    ratings: 33,
+  },
+  // --- Spain ---
+  {
+    id: "46",
+    photo: p3,
+    pub: "Flaherty's Irish Bar",
+    city: "Madrid",
+    country: "Spain",
+    lat: 40.4168,
+    lng: -3.7038,
+    handle: "@madridpint",
+    date: "2 days ago",
+    score: 3.7,
+    ratings: 48,
+    notes: "Not bad for Madrid. Cold lines, properly settled.",
+  },
+  {
+    id: "47",
+    photo: p4,
+    pub: "Kitty O'Shea's",
+    city: "Barcelona",
+    country: "Spain",
+    lat: 41.3851,
+    lng: 2.1734,
+    handle: "@bcnstout",
+    date: "1 week ago",
+    score: 3.5,
+    ratings: 39,
+  },
+  // --- Germany ---
+  {
+    id: "48",
+    photo: p5,
+    pub: "Dicey Reilly's",
+    city: "Berlin",
+    country: "Germany",
+    lat: 52.5200,
+    lng: 13.4050,
+    handle: "@berlinpint",
     date: "Just now",
     score: 0,
     ratings: 0,
-    notes: "First submission from this spot.",
+    notes: "First entry for Berlin. Germans can pour a pint, apparently.",
+  },
+  // --- France ---
+  {
+    id: "49",
+    photo: p6,
+    pub: "Carr's Irish Pub",
+    city: "Paris",
+    country: "France",
+    lat: 48.8566,
+    lng: 2.3522,
+    handle: "@parispint",
+    date: "2 weeks ago",
+    score: 3.6,
+    ratings: 22,
+    notes: "Near the Opéra. The French can't help themselves — it's almost good.",
+  },
+  // --- Japan ---
+  {
+    id: "50",
+    photo: brannigans,
+    pub: "The Dubliners Irish Pub",
+    city: "Tokyo",
+    country: "Japan",
+    lat: 35.6762,
+    lng: 139.6503,
+    handle: "@tokyopint",
+    date: "4 days ago",
+    score: 4.1,
+    ratings: 57,
+    notes: "Japan's attention to craft extends to the stout. Genuinely impressed.",
+  },
+  // --- Singapore ---
+  {
+    id: "51",
+    photo: pintTable,
+    pub: "Molly Malone's",
+    city: "Singapore",
+    country: "Singapore",
+    lat: 1.2966,
+    lng: 103.8520,
+    handle: "@sgpint",
+    date: "6 days ago",
+    score: 3.4,
+    ratings: 45,
+    notes: "32°C outside, 4°C pint. Appreciating the effort.",
   },
 ];

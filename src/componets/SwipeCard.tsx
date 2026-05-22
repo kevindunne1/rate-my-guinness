@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import type { Pint } from "@/lib/pints";
-import { Beer, Skull, Star, MapPin, ArrowLeft, ArrowRight } from "lucide-react";
+import { MapPin, ThumbsDown, ThumbsUp } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 
 type Props = {
@@ -10,17 +10,12 @@ type Props = {
 export function SwipeStack({ pints }: Props) {
   const [index, setIndex] = useState(0);
   const [drag, setDrag] = useState({ x: 0, y: 0, active: false });
-  const [stars, setStars] = useState<Record<string, number>>({});
-  const [ratingFeedback, setRatingFeedback] = useState<string | null>(null);
   const [swipedIds, setSwipedIds] = useState<Set<string>>(new Set());
   const startRef = useRef<{ x: number; y: number } | null>(null);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Cleanup timeout on unmount
   useEffect(() => {
-    return () => {
-      if (timerRef.current) clearTimeout(timerRef.current);
-    };
+    return () => { if (timerRef.current) clearTimeout(timerRef.current); };
   }, []);
 
   if (pints.length === 0) {
@@ -34,11 +29,10 @@ export function SwipeStack({ pints }: Props) {
     );
   }
 
-  // All-rated end state
   if (swipedIds.size >= pints.length) {
     return (
       <div className="mx-auto flex max-w-md flex-col items-center gap-6 rounded-3xl border border-border bg-card px-8 py-14 text-center">
-        <span className="font-serif text-5xl">🍺</span>
+        <span className="text-5xl">🍺</span>
         <h3 className="font-serif text-2xl text-cream">
           You've rated all {pints.length} pints.
         </h3>
@@ -52,16 +46,10 @@ export function SwipeStack({ pints }: Props) {
           >
             Rate again
           </button>
-          <Link
-            to="/leaderboard"
-            className="rounded-full bg-gold px-6 py-2.5 text-sm font-medium text-stout"
-          >
+          <Link to="/leaderboard" className="rounded-full bg-gold px-6 py-2.5 text-sm font-medium text-stout">
             See the Leaderboard
           </Link>
-          <Link
-            to="/upload"
-            className="rounded-full border border-gold/40 px-6 py-2.5 text-sm text-gold hover:bg-gold/10"
-          >
+          <Link to="/upload" className="rounded-full border border-gold/40 px-6 py-2.5 text-sm text-gold hover:bg-gold/10">
             Submit a pint
           </Link>
         </div>
@@ -110,35 +98,14 @@ export function SwipeStack({ pints }: Props) {
   const rotation = drag.x / 20;
   const goodOpacity = Math.min(Math.max(drag.x / 120, 0), 1);
   const badOpacity = Math.min(Math.max(-drag.x / 120, 0), 1);
-  const userRating = stars[current.id] ?? 0;
-
-  const handleStarClick = (n: number) => {
-    setStars({ ...stars, [current.id]: n });
-    setRatingFeedback(`${n} star${n > 1 ? "s" : ""} recorded`);
-    if (timerRef.current) clearTimeout(timerRef.current);
-    timerRef.current = setTimeout(() => setRatingFeedback(null), 1800);
-  };
 
   return (
     <div className="relative mx-auto w-full max-w-md select-none">
-
-      {/* Direction indicators above card */}
-      <div className="mb-3 flex items-center justify-between px-2">
-        <div className="flex items-center gap-1.5 rounded-full border border-blood/40 bg-blood/10 px-4 py-2 text-sm font-medium text-blood">
-          <ArrowLeft size={16} />
-          Disaster
-        </div>
-        <div className="flex items-center gap-1.5 rounded-full border border-gold/40 bg-gold/10 px-4 py-2 text-sm font-medium text-gold">
-          Quality Pour
-          <ArrowRight size={16} />
-        </div>
-      </div>
 
       {/* Stack hint */}
       <div
         className="absolute inset-0 translate-y-4 scale-[0.96] rounded-3xl border border-border bg-card opacity-60 shadow-pint"
         aria-hidden
-        style={{ top: "3rem" }}
       >
         <img src={next.photo} alt="" className="h-full w-full rounded-3xl object-cover opacity-40" />
       </div>
@@ -207,57 +174,29 @@ export function SwipeStack({ pints }: Props) {
         </div>
       </div>
 
-      {/* Star rating */}
-      <div className="mt-5">
-        <p className="mb-2 text-center text-xs uppercase tracking-widest text-muted-foreground">
-          {ratingFeedback ? (
-            <span className="text-gold">{ratingFeedback} ✓</span>
-          ) : userRating > 0 ? (
-            `You rated ${userRating} star${userRating > 1 ? "s" : ""} — tap to change`
-          ) : (
-            "Tap a star to leave your rating"
-          )}
-        </p>
-        <div className="flex items-center justify-center gap-2">
-          {[1, 2, 3, 4, 5].map((n) => (
-            <button
-              key={n}
-              onClick={() => handleStarClick(n)}
-              aria-label={`Rate ${n} star${n > 1 ? "s" : ""}`}
-              className="p-1 transition-transform hover:scale-125 active:scale-110"
-            >
-              <Star
-                size={28}
-                className={userRating >= n ? "fill-gold text-gold" : "text-muted-foreground"}
-              />
-            </button>
-          ))}
-        </div>
-      </div>
-
       {/* Action buttons */}
-      <div className="mt-5 flex items-center justify-center gap-6">
+      <div className="mt-5 grid grid-cols-2 gap-3">
         <button
           onClick={() => advance("left")}
-          className="group flex flex-col items-center gap-1.5"
-          aria-label="Disaster — skip this pint"
+          aria-label="Criminal — bad pour"
+          className="group flex items-center justify-center gap-3 rounded-2xl border-2 border-blood/50 bg-blood/10 px-6 py-5 text-blood transition-all hover:bg-blood hover:text-cream hover:border-blood active:scale-95"
         >
-          <span className="flex h-16 w-16 items-center justify-center rounded-full border-2 border-blood/60 bg-blood/10 text-blood transition-all group-hover:scale-110 group-hover:bg-blood group-hover:text-cream">
-            <Skull size={28} />
-          </span>
-          <span className="text-xs text-blood/70">Disaster</span>
+          <ThumbsDown size={24} strokeWidth={2.5} className="transition-transform group-hover:-rotate-12" />
+          <span className="font-serif text-xl font-bold tracking-wide">Criminal</span>
         </button>
         <button
           onClick={() => advance("right")}
-          className="group flex flex-col items-center gap-1.5"
-          aria-label="Quality pour — approve this pint"
+          aria-label="Quality pour — approve"
+          className="group flex items-center justify-center gap-3 rounded-2xl border-2 border-gold/50 bg-gold/10 px-6 py-5 text-gold transition-all hover:bg-gold hover:text-stout hover:border-gold active:scale-95"
         >
-          <span className="flex h-16 w-16 items-center justify-center rounded-full border-2 border-gold/60 bg-gold/10 text-gold transition-all group-hover:scale-110 group-hover:bg-gold group-hover:text-stout">
-            <Beer size={28} />
-          </span>
-          <span className="text-xs text-gold/70">Quality Pour</span>
+          <span className="font-serif text-xl font-bold tracking-wide">Quality</span>
+          <ThumbsUp size={24} strokeWidth={2.5} className="transition-transform group-hover:rotate-12" />
         </button>
       </div>
+
+      <p className="mt-3 text-center text-xs text-muted-foreground">
+        Swipe or use ← → arrow keys
+      </p>
     </div>
   );
 }

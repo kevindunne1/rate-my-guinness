@@ -43,4 +43,31 @@ Initial build. All five pages scaffolded and working with seed data.
 
 ---
 
+## [0.2.0] — 22/05/2026
+
+Polish pass, data expansion, and UX improvements based on review.
+
+### Added
+
+- **51-pub global dataset** — `pints.ts` rewritten with one real pub per local asset image, covering Ireland (Dublin + regional), Northern Ireland, England, Scotland, USA, Canada, Australia, New Zealand, Spain, Germany, France, Japan, and Singapore. All photos now served from local assets rather than Unsplash CDN.
+- **Upload file guidance** — format and size hint ("JPEG, PNG, WebP or HEIC · Max 20 MB") displayed below the upload area. Client-side 20 MB file size validation added with a distinct error message.
+- **Leaderboard filters wired up** — time and geography filter chips now actually filter the pints, pubs, and submitters lists (previously cosmetic). Empty state shown when no pints match.
+- **Upload geolocation** — "Auto" button uses browser geolocation + Nominatim reverse geocoding to pre-fill the location field. Loader spinner during lookup, error message on denial or timeout.
+
+### Changed
+
+- **SwipeCard redesign** — star ratings removed (redundant with on-card score). Direction indicator pills above card removed. Skull/beer icon buttons replaced with full-width "Criminal" (ThumbsDown) / "Quality" (ThumbsUp) button pair with animated hover states.
+- **SwipeCard end state** — once all pints are rated, shows a completion screen with options to rate again, view the leaderboard, or submit a pint. Previously cycled back silently.
+- **PintCard** — hover animations removed (implied tappability with no destination). "New" gold badge shown for unrated entries instead of a score badge.
+- **Map popup** — deep-link CTA now navigates to `/leaderboard` (was a broken `/#rate` anchor).
+- **Navbar** — mobile hamburger menu links now highlight correctly on the active page (was missing the active gold state).
+
+### Fixed
+
+- `useEffect` keyboard listener dependency array corrected — was re-registering on every render.
+- `setTimeout` now cleaned up on `SwipeCard` unmount to prevent state updates on an unmounted component.
+- Unused imports (`Link`, `ScoreBadge`) removed from `map.tsx` after popup change.
+
+---
+
 *Entries below this line will be added as the project evolves.*

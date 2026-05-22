@@ -18,14 +18,23 @@ function UploadPage() {
   const [dragging, setDragging] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [photoError, setPhotoError] = useState(false);
+  const [fileSizeError, setFileSizeError] = useState(false);
   const [locating, setLocating] = useState(false);
   const [locationError, setLocationError] = useState("");
   const fileRef = useRef<HTMLInputElement>(null);
   const locationRef = useRef<HTMLInputElement>(null);
 
+  const MAX_FILE_SIZE_MB = 20;
+
   const handleFile = (f: File | null | undefined) => {
     if (!f) return;
     setPhotoError(false);
+    if (f.size > MAX_FILE_SIZE_MB * 1024 * 1024) {
+      setPhotoError(true);
+      setFileSizeError(true);
+      return;
+    }
+    setFileSizeError(false);
     const url = URL.createObjectURL(f);
     setPreview(url);
   };
@@ -86,7 +95,7 @@ function UploadPage() {
         <h1 className="mt-8 font-serif text-4xl text-cream">Sent to the Judges.</h1>
         <p className="mt-3 text-muted-foreground">Your pint enters the rotation. Fate is sealed.</p>
         <button
-          onClick={() => { setSubmitted(false); setPreview(null); setPhotoError(false); }}
+          onClick={() => { setSubmitted(false); setPreview(null); setPhotoError(false); setFileSizeError(false); }}
           className="mt-8 rounded-full bg-gold px-6 py-3 font-medium text-stout"
         >
           Submit another
@@ -138,9 +147,14 @@ function UploadPage() {
               className="absolute inset-0 cursor-pointer opacity-0"
             />
           </label>
+          <p className="mt-2 text-center text-xs text-muted-foreground">
+            JPEG, PNG, WebP or HEIC · Max 20 MB
+          </p>
           {photoError && (
-            <p className="mt-2 text-center text-sm font-medium text-blood">
-              Add a photo to continue — that's what the judges are here for.
+            <p className="mt-1 text-center text-sm font-medium text-blood">
+              {fileSizeError
+                ? "File too large — maximum 20 MB."
+                : "Add a photo to continue — that's what the judges are here for."}
             </p>
           )}
         </div>
