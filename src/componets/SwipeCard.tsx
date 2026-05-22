@@ -58,7 +58,6 @@ export function SwipeStack({ pints }: Props) {
   }
 
   const current = pints[index % pints.length];
-  const next = pints[(index + 1) % pints.length];
 
   const advance = (dir: "left" | "right") => {
     setSwipedIds((prev) => new Set([...prev, current.id]));
@@ -102,12 +101,11 @@ export function SwipeStack({ pints }: Props) {
   return (
     <div className="relative mx-auto w-full max-w-md select-none">
 
-      {/* Stack hint */}
-      <div
-        className="absolute inset-0 translate-y-4 scale-[0.96] rounded-3xl border border-border bg-card opacity-60 shadow-pint"
-        aria-hidden
-      >
-        <img src={next.photo} alt="" className="h-full w-full rounded-3xl object-cover opacity-40" />
+      {/* Swipe instruction */}
+      <div className="mb-3 flex items-center justify-between px-1 text-xs text-muted-foreground">
+        <span className="flex items-center gap-1.5 text-blood/80">← Bad pour</span>
+        <span className="text-cream/40">Swipe to rate</span>
+        <span className="flex items-center gap-1.5 text-gold/80">Good pour →</span>
       </div>
 
       {/* Card */}
@@ -195,7 +193,10 @@ export function SwipeStack({ pints }: Props) {
       </div>
 
       <p className="mt-3 text-center text-xs text-muted-foreground">
-        Swipe or use ← → arrow keys
+        Swipe or tap · ← → arrow keys also work
+      </p>
+      <p className="mt-2 text-center text-xs text-muted-foreground/60">
+        Each swipe counts as one rating. The displayed score is the live average of all votes cast.
       </p>
     </div>
   );
