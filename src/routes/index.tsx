@@ -59,7 +59,7 @@ function Landing() {
       </section>
 
       {/* SWIPE */}
-      <section id="rate" className="relative px-4 py-20 sm:py-28">
+      <section id="rate" className="relative overflow-hidden px-4 py-20 sm:py-28">
         <div className="mx-auto max-w-5xl">
           <div className="mb-10 text-center">
             <h2 className="font-serif text-4xl text-cream sm:text-5xl">Swipe to Judge</h2>
