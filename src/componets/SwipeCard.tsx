@@ -1,25 +1,47 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { Pint } from "@/lib/pints";
 import { MapPin, ThumbsDown, ThumbsUp } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 
-const FLAGS: Record<string, string> = {
-  "Ireland": "🇮🇪",
-  "N. Ireland": "🇬🇧",
-  "UK": "🇬🇧",
-  "Scotland": "🏴󠁧󠁢󠁳󠁣󠁴󠁿",
-  "USA": "🇺🇸",
-  "Canada": "🇨🇦",
-  "Australia": "🇦🇺",
-  "New Zealand": "🇳🇿",
-  "Spain": "🇪🇸",
-  "Germany": "🇩🇪",
-  "France": "🇫🇷",
-  "Japan": "🇯🇵",
-  "Singapore": "🇸🇬",
+const COUNTRY_CODES: Record<string, string> = {
+  "Ireland":     "ie",
+  "N. Ireland":  "gb",
+  "UK":          "gb",
+  "Scotland":    "gb-sct",
+  "USA":         "us",
+  "Canada":      "ca",
+  "Australia":   "au",
+  "New Zealand": "nz",
+  "Spain":       "es",
+  "Germany":     "de",
+  "France":      "fr",
+  "Japan":       "jp",
+  "Singapore":   "sg",
 };
 
-const countryFlag = (country: string) => FLAGS[country] ?? "🏳️";
+function CountryFlag({ country }: { country: string }) {
+  const code = COUNTRY_CODES[country];
+  if (!code) return null;
+  return (
+    <img
+      src={`https://flagcdn.com/24x18/${code}.png`}
+      srcSet={`https://flagcdn.com/48x36/${code}.png 2x`}
+      width={24}
+      height={18}
+      alt={country}
+      className="rounded-sm shadow-sm"
+    />
+  );
+}
+
+function shuffle<T>(arr: T[]): T[] {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
 
 type Props = {
   pints: Pint[];
@@ -32,11 +54,19 @@ export function SwipeStack({ pints }: Props) {
   const startRef = useRef<{ x: number; y: number } | null>(null);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  const deck = useMemo(() => shuffle(pints), [pints]);
+
+  // Reset position when the filter changes (pints reference changes → new deck)
+  useEffect(() => {
+    setIndex(0);
+    setSwipedIds(new Set());
+  }, [pints]);
+
   useEffect(() => {
     return () => { if (timerRef.current) clearTimeout(timerRef.current); };
   }, []);
 
-  if (pints.length === 0) {
+  if (deck.length === 0) {
     return (
       <div className="flex h-64 flex-col items-center justify-center gap-4 rounded-3xl border border-border bg-card text-muted-foreground">
         <p>No pints to rate right now.</p>
@@ -47,12 +77,12 @@ export function SwipeStack({ pints }: Props) {
     );
   }
 
-  if (swipedIds.size >= pints.length) {
+  if (swipedIds.size >= deck.length) {
     return (
       <div className="mx-auto flex max-w-md flex-col items-center gap-6 rounded-3xl border border-border bg-card px-8 py-14 text-center">
         <span className="text-5xl">🍺</span>
         <h3 className="font-serif text-2xl text-cream">
-          You've rated all {pints.length} pints.
+          You've rated all {deck.length} pints.
         </h3>
         <p className="text-sm text-muted-foreground">
           The jury has spoken. Check the leaderboard or submit your own.
@@ -75,7 +105,7 @@ export function SwipeStack({ pints }: Props) {
     );
   }
 
-  const current = pints[index % pints.length];
+  const current = deck[index % deck.length];
 
   const advance = (dir: "left" | "right") => {
     setSwipedIds((prev) => new Set([...prev, current.id]));
@@ -171,7 +201,7 @@ export function SwipeStack({ pints }: Props) {
               <span className="flex items-center gap-1">
                 <MapPin size={14} /> {current.city}, {current.country}
               </span>
-              <span className="text-lg leading-none">{countryFlag(current.country)}</span>
+              <CountryFlag country={current.country} />
             </p>
             <div className="mt-3 flex items-center justify-between text-xs">
               <span className="text-gold">{current.handle}</span>
