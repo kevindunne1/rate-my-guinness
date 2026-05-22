@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import type { Pint } from "@/lib/pints";
-import { Beer, Skull, Star, MapPin } from "lucide-react";
+import { Beer, Skull, Star, MapPin, ArrowLeft, ArrowRight } from "lucide-react";
 
 type Props = {
   pints: Pint[];
@@ -11,6 +11,15 @@ export function SwipeStack({ pints }: Props) {
   const [drag, setDrag] = useState({ x: 0, y: 0, active: false });
   const [stars, setStars] = useState<Record<string, number>>({});
   const startRef = useRef<{ x: number; y: number } | null>(null);
+
+  if (pints.length === 0) {
+    return (
+      <div className="flex h-64 items-center justify-center rounded-3xl border border-border bg-card text-muted-foreground">
+        No pints to rate right now. Be the first to{" "}
+        <a href="/upload" className="ml-1 text-gold underline">submit one.</a>
+      </div>
+    );
+  }
 
   const current = pints[index % pints.length];
   const next = pints[(index + 1) % pints.length];
@@ -30,7 +39,8 @@ export function SwipeStack({ pints }: Props) {
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [index]);
 
   const onStart = (x: number, y: number) => {
     startRef.current = { x, y };
@@ -49,11 +59,29 @@ export function SwipeStack({ pints }: Props) {
   const rotation = drag.x / 20;
   const goodOpacity = Math.min(Math.max(drag.x / 120, 0), 1);
   const badOpacity = Math.min(Math.max(-drag.x / 120, 0), 1);
+  const userRating = stars[current.id] ?? 0;
 
   return (
     <div className="relative mx-auto w-full max-w-md select-none">
+
+      {/* Swipe direction indicators — above the card */}
+      <div className="mb-3 flex items-center justify-between px-2">
+        <div className="flex items-center gap-1.5 rounded-full border border-blood/40 bg-blood/10 px-4 py-2 text-sm font-medium text-blood">
+          <ArrowLeft size={16} />
+          Disaster
+        </div>
+        <div className="flex items-center gap-1.5 rounded-full border border-gold/40 bg-gold/10 px-4 py-2 text-sm font-medium text-gold">
+          Quality Pour
+          <ArrowRight size={16} />
+        </div>
+      </div>
+
       {/* Stack hint */}
-      <div className="absolute inset-0 translate-y-4 scale-[0.96] rounded-3xl border border-border bg-card opacity-60 shadow-pint" aria-hidden>
+      <div
+        className="absolute inset-0 translate-y-4 scale-[0.96] rounded-3xl border border-border bg-card opacity-60 shadow-pint"
+        aria-hidden
+        style={{ top: "3rem" }}
+      >
         <img src={next.photo} alt="" className="h-full w-full rounded-3xl object-cover opacity-40" />
       </div>
 
@@ -73,10 +101,15 @@ export function SwipeStack({ pints }: Props) {
         onTouchEnd={onEnd}
       >
         <div className="relative aspect-[3/4] bg-stout">
-          <img src={current.photo} alt={`Pint at ${current.pub}`} className="h-full w-full object-cover pointer-events-none" draggable={false} />
+          <img
+            src={current.photo}
+            alt={`Pint at ${current.pub}`}
+            className="h-full w-full object-cover pointer-events-none"
+            draggable={false}
+          />
           <div className="absolute inset-0 bg-gradient-to-t from-stout via-stout/40 to-transparent" />
 
-          {/* Overlays */}
+          {/* Swipe overlays */}
           <div
             className="absolute left-6 top-6 rotate-[-12deg] rounded-xl border-4 border-gold px-4 py-2 font-serif text-2xl font-bold text-gold"
             style={{ opacity: goodOpacity }}
@@ -101,54 +134,66 @@ export function SwipeStack({ pints }: Props) {
               <span className="text-cream/60">{current.date}</span>
             </div>
             <div className="mt-3 flex items-center gap-3 rounded-xl bg-stout/70 px-3 py-2 backdrop-blur">
-              <span className="font-serif text-2xl text-gold">{current.score.toFixed(1)}</span>
-              <span className="text-xs text-cream/70">avg · {current.ratings} ratings</span>
+              {current.ratings > 0 ? (
+                <>
+                  <span className="font-serif text-2xl text-gold">{current.score.toFixed(1)}</span>
+                  <span className="text-xs text-cream/70">avg · {current.ratings} ratings</span>
+                </>
+              ) : (
+                <span className="text-xs font-medium uppercase tracking-wider text-gold/80">
+                  ✦ New Entry — be the first to rate
+                </span>
+              )}
             </div>
           </div>
         </div>
       </div>
 
-      {/* Stars */}
-      <div className="mt-5 flex items-center justify-center gap-2">
-        {[1, 2, 3, 4, 5].map((n) => (
-          <button
-            key={n}
-            onClick={() => setStars({ ...stars, [current.id]: n })}
-            aria-label={`Rate ${n} stars`}
-            className="p-1 transition-transform hover:scale-110"
-          >
-            <Star
-              size={26}
-              className={
-                (stars[current.id] ?? 0) >= n
-                  ? "fill-gold text-gold"
-                  : "text-muted-foreground"
-              }
-            />
-          </button>
-        ))}
+      {/* Star rating */}
+      <div className="mt-5">
+        <p className="mb-2 text-center text-xs uppercase tracking-widest text-muted-foreground">
+          {userRating > 0 ? `You rated ${userRating} star${userRating > 1 ? "s" : ""}` : "Tap to leave your rating"}
+        </p>
+        <div className="flex items-center justify-center gap-2">
+          {[1, 2, 3, 4, 5].map((n) => (
+            <button
+              key={n}
+              onClick={() => setStars({ ...stars, [current.id]: n })}
+              aria-label={`Rate ${n} star${n > 1 ? "s" : ""}`}
+              className="p-1 transition-transform hover:scale-125 active:scale-110"
+            >
+              <Star
+                size={28}
+                className={userRating >= n ? "fill-gold text-gold" : "text-muted-foreground"}
+              />
+            </button>
+          ))}
+        </div>
       </div>
 
-      {/* Actions */}
-      <div className="mt-5 flex items-center justify-center gap-4">
+      {/* Action buttons with labels */}
+      <div className="mt-5 flex items-center justify-center gap-6">
         <button
           onClick={() => advance("left")}
-          className="group flex h-16 w-16 items-center justify-center rounded-full border-2 border-blood/60 bg-blood/10 text-blood transition-all hover:scale-110 hover:bg-blood hover:text-cream"
-          aria-label="Disaster"
+          className="group flex flex-col items-center gap-1.5"
+          aria-label="Disaster — skip this pint"
         >
-          <Skull size={28} />
+          <span className="flex h-16 w-16 items-center justify-center rounded-full border-2 border-blood/60 bg-blood/10 text-blood transition-all group-hover:scale-110 group-hover:bg-blood group-hover:text-cream">
+            <Skull size={28} />
+          </span>
+          <span className="text-xs text-blood/70">Disaster</span>
         </button>
         <button
           onClick={() => advance("right")}
-          className="group flex h-16 w-16 items-center justify-center rounded-full border-2 border-gold/60 bg-gold/10 text-gold transition-all hover:scale-110 hover:bg-gold hover:text-stout"
-          aria-label="Good Pour"
+          className="group flex flex-col items-center gap-1.5"
+          aria-label="Quality pour — approve this pint"
         >
-          <Beer size={28} />
+          <span className="flex h-16 w-16 items-center justify-center rounded-full border-2 border-gold/60 bg-gold/10 text-gold transition-all group-hover:scale-110 group-hover:bg-gold group-hover:text-stout">
+            <Beer size={28} />
+          </span>
+          <span className="text-xs text-gold/70">Quality Pour</span>
         </button>
       </div>
-      <p className="mt-3 text-center text-xs text-muted-foreground">
-        Swipe, tap, or use ← → arrows
-      </p>
     </div>
   );
 }
