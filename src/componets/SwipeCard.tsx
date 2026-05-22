@@ -3,6 +3,24 @@ import type { Pint } from "@/lib/pints";
 import { MapPin, ThumbsDown, ThumbsUp } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 
+const FLAGS: Record<string, string> = {
+  "Ireland": "🇮🇪",
+  "N. Ireland": "🇬🇧",
+  "UK": "🇬🇧",
+  "Scotland": "🏴󠁧󠁢󠁳󠁣󠁴󠁿",
+  "USA": "🇺🇸",
+  "Canada": "🇨🇦",
+  "Australia": "🇦🇺",
+  "New Zealand": "🇳🇿",
+  "Spain": "🇪🇸",
+  "Germany": "🇩🇪",
+  "France": "🇫🇷",
+  "Japan": "🇯🇵",
+  "Singapore": "🇸🇬",
+};
+
+const countryFlag = (country: string) => FLAGS[country] ?? "🏳️";
+
 type Props = {
   pints: Pint[];
 };
@@ -149,8 +167,11 @@ export function SwipeStack({ pints }: Props) {
           {/* Meta */}
           <div className="absolute bottom-0 left-0 right-0 p-5">
             <h3 className="font-serif text-2xl text-cream">{current.pub}</h3>
-            <p className="mt-1 flex items-center gap-1 text-sm text-cream/80">
-              <MapPin size={14} /> {current.city}, {current.country}
+            <p className="mt-1 flex items-center justify-between text-sm text-cream/80">
+              <span className="flex items-center gap-1">
+                <MapPin size={14} /> {current.city}, {current.country}
+              </span>
+              <span className="text-lg leading-none">{countryFlag(current.country)}</span>
             </p>
             <div className="mt-3 flex items-center justify-between text-xs">
               <span className="text-gold">{current.handle}</span>
