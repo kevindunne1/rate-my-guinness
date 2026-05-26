@@ -1,5 +1,6 @@
 import type { Pint } from "@/lib/pints";
 import { ScoreBadge } from "./ScoreBadge";
+import { CountryFlag } from "./CountryFlag";
 import { MapPin } from "lucide-react";
 
 export function PintCard({ pint }: { pint: Pint }) {
@@ -24,8 +25,11 @@ export function PintCard({ pint }: { pint: Pint }) {
       </div>
       <div className="p-4">
         <h3 className="font-serif text-lg text-cream">{pint.pub}</h3>
-        <p className="mt-1 flex items-center gap-1 text-sm text-muted-foreground">
-          <MapPin size={12} /> {pint.city}
+        <p className="mt-1 flex items-center justify-between text-sm text-muted-foreground">
+          <span className="flex items-center gap-1">
+            <MapPin size={12} /> {pint.city}, {pint.country}
+          </span>
+          <CountryFlag country={pint.country} size="sm" />
         </p>
         <div className="mt-3 flex items-center justify-between text-xs text-muted-foreground">
           <span className="text-gold">{pint.handle}</span>

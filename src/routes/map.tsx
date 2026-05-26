@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { PINTS, type Pint } from "@/lib/pints";
 import { Search, X, Filter } from "lucide-react";
+import { COUNTRY_CODES } from "@/components/CountryFlag";
 
 export const Route = createFileRoute("/map")({
   head: () => ({
@@ -163,11 +164,15 @@ function LeafletMap({ pints }: { pints: Pint[] }) {
           iconAnchor: [14, 14],
         });
         const marker = L.marker([p.lat, p.lng], { icon });
+        const flagCode = COUNTRY_CODES[p.country];
+        const flagImg = flagCode
+          ? `<img src="https://flagcdn.com/16x12/${flagCode}.png" width="16" height="12" style="border-radius:2px;vertical-align:middle;margin-right:4px" />`
+          : "";
         marker.bindPopup(
           `<div style="font-family:Inter,sans-serif;color:#0D0D0D;min-width:200px">
             <img src="${p.photo}" style="width:100%;height:120px;object-fit:cover;border-radius:8px;margin-bottom:8px" />
             <div style="font-family:'Playfair Display',serif;font-size:18px;font-weight:700;margin-bottom:2px">${p.pub}</div>
-            <div style="font-size:12px;color:#666;margin-bottom:8px">${p.city}, ${p.country}</div>
+            <div style="font-size:12px;color:#666;margin-bottom:8px">${flagImg}${p.city}, ${p.country}</div>
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
               <span style="background:${color};color:#0D0D0D;padding:4px 10px;border-radius:999px;font-weight:700;font-size:13px">${p.score.toFixed(1)} ★</span>
               <span style="font-size:11px;color:#666">${p.ratings} ratings</span>

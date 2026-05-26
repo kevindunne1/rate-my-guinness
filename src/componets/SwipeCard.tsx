@@ -2,37 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import type { Pint } from "@/lib/pints";
 import { MapPin, ThumbsDown, ThumbsUp } from "lucide-react";
 import { Link } from "@tanstack/react-router";
-
-const COUNTRY_CODES: Record<string, string> = {
-  "Ireland":     "ie",
-  "N. Ireland":  "gb",
-  "UK":          "gb",
-  "Scotland":    "gb-sct",
-  "USA":         "us",
-  "Canada":      "ca",
-  "Australia":   "au",
-  "New Zealand": "nz",
-  "Spain":       "es",
-  "Germany":     "de",
-  "France":      "fr",
-  "Japan":       "jp",
-  "Singapore":   "sg",
-};
-
-function CountryFlag({ country }: { country: string }) {
-  const code = COUNTRY_CODES[country];
-  if (!code) return null;
-  return (
-    <img
-      src={`https://flagcdn.com/24x18/${code}.png`}
-      srcSet={`https://flagcdn.com/48x36/${code}.png 2x`}
-      width={24}
-      height={18}
-      alt={country}
-      className="rounded-sm shadow-sm"
-    />
-  );
-}
+import { CountryFlag } from "@/components/CountryFlag";
 
 function shuffle<T>(arr: T[]): T[] {
   const a = [...arr];

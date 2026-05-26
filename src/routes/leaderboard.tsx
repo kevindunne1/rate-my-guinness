@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { PINTS } from "@/lib/pints";
 import { ScoreBadge } from "@/components/ScoreBadge";
+import { CountryFlag } from "@/components/CountryFlag";
 import { Trophy, Award } from "lucide-react";
 
 export const Route = createFileRoute("/leaderboard")({
@@ -172,7 +173,10 @@ function Leaderboard() {
                 />
                 <div className="min-w-0 flex-1">
                   <h3 className="truncate font-serif text-lg text-cream">{p.pub}</h3>
-                  <p className="truncate text-sm text-muted-foreground">{p.city} · {p.handle}</p>
+                  <p className="flex items-center gap-1.5 truncate text-sm text-muted-foreground">
+                    <CountryFlag country={p.country} size="sm" />
+                    {p.city} · {p.handle}
+                  </p>
                   <p className="mt-1 text-xs text-muted-foreground">{p.ratings} ratings</p>
                 </div>
                 <ScoreBadge score={p.score} size="lg" />
@@ -191,7 +195,8 @@ function Leaderboard() {
               <div className="w-8 text-center font-serif text-2xl text-gold">{i + 1}</div>
               <div className="flex-1 min-w-0">
                 <h3 className="font-serif text-lg text-cream">{p.pub}</h3>
-                <p className="text-sm text-muted-foreground">
+                <p className="flex items-center gap-1.5 text-sm text-muted-foreground">
+                  <CountryFlag country={p.country} size="sm" />
                   {p.city} · {p.count} pint{p.count > 1 ? "s" : ""}
                 </p>
               </div>
